@@ -32,13 +32,13 @@ resource "aws_codepipeline" "this" {
       name             = "Source"
       category         = "Source"
       owner            = "AWS"
-      provider         = "CodeCommit"
+      provider         = "CodeStarSourceConnection"
       version          = "1"
       run_order        = 1
-      output_artifacts = ["SOURCE_ARTIFACT"]
+      output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn       = aws_codestarconnections_connection.this.arn
-        FullRepositoryId = "AghaRameez1/PLT-Task"
+        FullRepositoryId = "agharameezgulkhan/PLT-Task"
         BranchName           = "master"
       }
     }
@@ -77,17 +77,17 @@ resource "aws_codepipeline" "this" {
       provider         = "CodeBuild"
       version          = "1"
       run_order        = 2
-      input_artifacts  = ["VALIDATE_ARTIFACT"]
-      output_artifacts = ["PLAN_ARTIFACT"]
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
       configuration = {
         ProjectName = var.aws_codebuild_project_name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "ACTION"
-            value = "PLAN"
-            type  = "PLAINTEXT"
-          }
-        ])
+        # EnvironmentVariables = jsonencode([
+        #   {
+        #     name  = "ACTION"
+        #     value = "PLAN"
+        #     type  = "PLAINTEXT"
+        #   }
+        # ])
       }
     }
   }
@@ -214,6 +214,11 @@ data "aws_iam_policy_document" "codepipeline" {
       "codebuild:StartBuild"
     ]
     resources = [var.aws_codebuild_project_name_arn]
+  }
+  statement {
+    effect    = "Allow"
+    actions   = ["codestar-connections:UseConnection"]
+    resources = ["*"]
   }
   statement {
     sid = "kmsaccess"

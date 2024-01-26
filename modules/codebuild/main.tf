@@ -21,7 +21,7 @@ resource "aws_codebuild_project" "this" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "./templates/buildspec.yaml"
+    buildspec = "./modules/templates/buildspec.yaml"
   }
 
   logs_config {
