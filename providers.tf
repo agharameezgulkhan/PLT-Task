@@ -10,7 +10,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  shared_config_files      = ["/Users/Lenovo/.aws/config"]
-  shared_credentials_files = ["/Users/Lenovo/.aws/credentials"]
-  profile                  = "PowerUser-489994096722"
+  # shared_config_files      = ["/Users/Lenovo/.aws/config"]
+  # shared_credentials_files = ["/Users/Lenovo/.aws/credentials"]
+  # profile                  = "PowerUser-489994096722"
 }
