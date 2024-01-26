@@ -1,0 +1,68 @@
+[
+        {
+            "name": "pact-web-ui",
+            "image": "pactfoundation/pact-broker:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "pact-web-ui",
+                    "containerPort": 9292,
+                    "hostPort": 9292,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "PACT_BROKER_DATABASE_CONNECT_MAX_RETRIES",
+                    "value": "5"
+                },
+                {
+                    "name": "PACT_BROKER_LOG_LEVEL",
+                    "value": "INFO"
+                },
+                {
+                    "name": "PACT_BROKER_DATABASE_URL",
+                    "value": "postgres://postgres:password@0.0.0.0:5432/postgres"
+                },
+                {
+                    "name": "PACT_BROKER_SQL_LOG_LEVEL",
+                    "value": "DEBUG"
+                },
+                {
+                    "name": "PACT_BROKER_PORT",
+                    "value": "9292"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": []
+        },
+        {
+            "name": "pactbroker-db",
+            "image": "postgres",
+            "cpu": 0,
+            "portMappings": [],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "POSTGRES_USER",
+                    "value": "postgres"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "password"
+                },
+                {
+                    "name": "POSTGRES_DB",
+                    "value": "postgres"
+                },
+                {
+                    "name": "PGDATA",
+                    "value": "/var/lib/postgresql/data/pgdata"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": []
+        }
+    ]
