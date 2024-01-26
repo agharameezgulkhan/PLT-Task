@@ -43,5 +43,5 @@ variable "cluster_name" {
 
 variable "deploy_cluster" {
   type = bool
-  default = false
+  default = true
 }
