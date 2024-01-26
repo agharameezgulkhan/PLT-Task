@@ -28,7 +28,7 @@ variable "publicprefix" {
 
 variable "privateprefix" {
   type    = list(any)
-  default = ["10.0.3.0/24","10.0.4.0/24"]
+  default = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
 variable "nat_gateway" {
@@ -39,4 +39,9 @@ variable "nat_gateway" {
 variable "cluster_name" {
   type    = string
   default = "agharameez-Cluster"
+}
+
+variable "deploy_cluster" {
+  type = bool
+  default = false
 }

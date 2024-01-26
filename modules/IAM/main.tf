@@ -42,7 +42,7 @@ resource "aws_iam_role" "codebuild" {
   })
 }
 resource "aws_iam_role_policy_attachment" "codebuild" {
-  role = aws_iam_role.codebuild.name
+  role       = aws_iam_role.codebuild.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 ################################################################################
@@ -64,6 +64,6 @@ resource "aws_iam_role" "codepipeline" {
   })
 }
 resource "aws_iam_role_policy_attachment" "codepipeline" {
-  role = aws_iam_role.codepipeline.name
+  role       = aws_iam_role.codepipeline.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }

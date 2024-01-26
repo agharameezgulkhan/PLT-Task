@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "Eurus-ui-codepipeline-bucket"
+  bucket        = "agharameezbucket"
   force_destroy = true
 }
 

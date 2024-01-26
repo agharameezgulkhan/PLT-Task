@@ -1,7 +1,5 @@
 
-data "template_file" "pact" {
-  template = file("${path.module}/pact.json")
-}
+
 # resource "aws_service_discovery_private_dns_namespace" "this" {
 #   vpc = var.vpc_id.id
 #   name = "agharameez-postgres.com"
@@ -103,39 +101,39 @@ resource "aws_ecs_service" "this" {
   desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
-    subnets          = ["${var.public_subnet_id[0]}"]
-    security_groups  = ["${var.security-group.id}"]
+    subnets          = [var.public_subnet_id[0]]
+    security_groups  = [var.security_group]
     assign_public_ip = true
   }
   load_balancer {
     target_group_arn = aws_alb_target_group.this.id
-    container_name = "pact-web-ui"
-    container_port = 9292
+    container_name   = "pact-web-ui"
+    container_port   = 9292
   }
 }
 
 resource "aws_alb" "this" {
-  name = "agharameez-alb"
+  name               = "agharameez-alb"
   load_balancer_type = "application"
-  security_groups = ["${var.security-group.id}"]
-  subnets = [for subnet in var.public_subnet_id : subnet]
+  security_groups    = [var.security_group]
+  subnets            = [for subnet in var.public_subnet_id : subnet]
 }
 
 resource "aws_alb_target_group" "this" {
-  name = "agharameez-tg"
-  port = 9292
-  protocol = "HTTP"
-  vpc_id = var.vpc_id.id
+  name        = "agharameez-tg"
+  port        = 9292
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
   target_type = "ip"
 
   health_check {
     healthy_threshold   = "3"
-        interval            = "30"
-        protocol            = "HTTP"
-        matcher             = "200"
-        timeout             = "3"
-        path                = "/diagnostic/status/heartbeat"
-        unhealthy_threshold = "2"
+    interval            = "30"
+    protocol            = "HTTP"
+    matcher             = "200"
+    timeout             = "3"
+    path                = "/diagnostic/status/heartbeat"
+    unhealthy_threshold = "2"
   }
 }
 resource "aws_alb_listener" "this" {

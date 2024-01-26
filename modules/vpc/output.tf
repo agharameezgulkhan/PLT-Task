@@ -6,16 +6,11 @@ output "public_subnet_id" {
   value = aws_subnet.main-Public-subnet[*].id
 }
 
-
-output "security-group" {
-  value = aws_security_group.agharameezSG
-}
-
 output "availability_zone" {
   value = data.aws_availability_zones.azs
 }
 
-output "sg" {
+output "security_group_id" {
   value = aws_security_group.agharameezSG.id
 }
 output "nat" {
@@ -23,5 +18,5 @@ output "nat" {
 }
 
 output "vpc_id" {
-  value = aws_vpc.agharameezvpc
+  value = aws_vpc.agharameezvpc.id
 }

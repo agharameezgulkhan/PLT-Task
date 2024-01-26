@@ -17,17 +17,12 @@ resource "aws_internet_gateway" "agharameezgw" {
   )
 }
 
-data "aws_availability_zones" "azs" {
-
-}
-
 locals {
   nat_count = (var.nat_gateway <= length(data.aws_availability_zones.azs.names) ? var.nat_gateway : length(data.aws_availability_zones.azs.names))
 }
 # Elastic Ip for NAT
 resource "aws_eip" "nat_eip" {
   count      = local.nat_count
-  vpc        = true
   depends_on = [aws_internet_gateway.agharameezgw]
 
 }
@@ -47,11 +42,11 @@ resource "aws_nat_gateway" "nat" {
 
 # Create a Main Public Subnet
 resource "aws_subnet" "main-Public-subnet" {
-  count             = length(var.publicprefix)
-  cidr_block        = var.publicprefix[count.index]
-  vpc_id            = aws_vpc.agharameezvpc.id
+  count                   = length(var.publicprefix)
+  cidr_block              = var.publicprefix[count.index]
+  vpc_id                  = aws_vpc.agharameezvpc.id
   map_public_ip_on_launch = true
-  availability_zone = element(data.aws_availability_zones.azs.names, count.index % length(var.publicprefix))
+  availability_zone       = element(data.aws_availability_zones.azs.names, count.index % length(var.publicprefix))
   tags = merge(var.tags, {
     "Name" = "AghaRameez-PublicSubnet-${count.index}"
     }

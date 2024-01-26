@@ -4,15 +4,15 @@
 
 resource "aws_codebuild_project" "this" {
   name                   = "agharameez-codebuild"
-  service_role           = var.codebuild_arn.arn
+  service_role           = var.codebuild_arn
   concurrent_build_limit = 1
 
   environment {
-    type            = "LINUX_CONTAINER"
-    image           = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-    compute_type    = "BUILD_GENERAL1_SMALL"
-    image_pull_credentials_type = "SERVICE_ROLE"
-    privileged_mode = true
+    type                        = "LINUX_CONTAINER"
+    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+    compute_type                = "BUILD_GENERAL1_SMALL"
+    image_pull_credentials_type = "CODEBUILD"
+    privileged_mode             = true
   }
 
   artifacts {
